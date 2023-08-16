@@ -59,4 +59,14 @@ class GuitarController extends Controller
             }
         }
     }
+
+    public function show($id)
+    {
+        $guitar = Guitar::find($id);
+        if ($guitar) {
+            return response()->json([$guitar], 200); //return the guitar object in json format and status code of 200
+        } else {
+            return response()->json(['message' => 'Guitar not found!'], 500);
+        }
+    }
 }
