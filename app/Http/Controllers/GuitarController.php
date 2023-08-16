@@ -69,4 +69,48 @@ class GuitarController extends Controller
             return response()->json(['message' => 'Guitar not found!'], 500);
         }
     }
+
+    public function edit($id)
+    {
+        $guitar = Guitar::find($id);
+        if ($guitar) {
+            return response()->json([$guitar], 200); //return the guitar object in json format and status code of 200
+        } else {
+            return response()->json(['message' => 'Guitar not found!'], 500);
+        }
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'manufacturer' => 'required|string|max:191',
+            'number_of_strings' => 'required|integer|max:191',
+            'type' => 'required|string|max:191',
+            'model' => 'required|string|max:191',
+
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages(),
+            ], 422); //422 means input error
+        } else { //if validation is ok then create a new guitar instance with data from request
+            $guitar = Guitar::find($id);
+
+
+            if ($guitar) {
+                $guitar->update([ //because ::update should not be called statically
+                    'manufacturer' => $request->manufacturer,
+                    'number_of_strings' => $request->number_of_strings,
+                    'type' => $request->type,
+                    'model' => $request->model,
+
+                ]);
+                return response()->json(['message' => 'Guitar updated successfully'], 200);
+            } else {
+                return response()->json(['message' => 'Guitar not updated!'], 404);
+            }
+        }
+    }
 }
