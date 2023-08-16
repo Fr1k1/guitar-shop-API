@@ -113,4 +113,15 @@ class GuitarController extends Controller
             }
         }
     }
+
+    public function delete($id)
+    {
+        $guitar = Guitar::find($id); //Guitar is representing Guitar model
+
+        if ($guitar) {
+            $guitar->delete();
+        } else {
+            return response()->json(['message' => 'Guitar not found!'], 404);
+        }
+    }
 }

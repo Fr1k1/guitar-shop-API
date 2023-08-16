@@ -14,3 +14,4 @@ Route::post('guitars', [GuitarController::class, 'store']);
 Route::get('guitars/{id}', [GuitarController::class, 'show']);
 Route::get('guitars/{id}/edit', [GuitarController::class, 'edit']);
 Route::put('guitars/{id}/update', [GuitarController::class, 'update']);
+Route::delete('guitars/{id}/delete', [GuitarController::class, 'delete']);
